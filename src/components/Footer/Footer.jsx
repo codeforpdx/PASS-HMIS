@@ -21,6 +21,7 @@ import RenderCopyrightAndLinksSection from './RenderCopyrightAndLinksSection';
 const Footer = () => {
   const theme = useTheme();
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
 
   return (
     <Box
@@ -38,14 +39,18 @@ const Footer = () => {
     >
       <Stack
         alignItems="center"
-        direction={isReallySmallScreen ? 'column' : 'row'}
-        spacing={isReallySmallScreen ? 1 : 4}
+        direction={isReallySmallScreen || isSmallScreenHeight ? 'column' : 'row'}
+        spacing={isReallySmallScreen || isSmallScreenHeight ? 1 : 4}
         divider={
           <Divider
-            orientation={isReallySmallScreen ? 'horizontal' : 'vertical'}
-            flexItem={isReallySmallScreen ? null : true}
+            orientation={isReallySmallScreen || isSmallScreenHeight ? 'horizontal' : 'vertical'}
+            flexItem={isReallySmallScreen || isSmallScreenHeight ? null : true}
             color={theme.palette.primary.main}
-            sx={isReallySmallScreen ? { height: '3px', width: 3 / 4 } : { width: '3px' }}
+            sx={
+              isReallySmallScreen || isSmallScreenHeight
+                ? { height: '3px', width: 3 / 4 }
+                : { width: '3px' }
+            }
           />
         }
       >

@@ -135,6 +135,7 @@ const Profile = () => {
         alignItems: 'center',
         width: '100%',
         height: isSmallScreen ? 'auto' : '60dvh',
+        minHeight: '500px',
         margin: '20px auto',
         justifyContent: 'center'
       }}
