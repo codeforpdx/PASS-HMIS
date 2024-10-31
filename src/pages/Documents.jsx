@@ -3,14 +3,20 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '@emotion/react';
-import { useMediaQuery } from '@mui/material';
+import { Container, useMediaQuery } from '@mui/material';
 import { ConfirmationModal, SetAclPermissionsModal, UploadDocumentModal } from '@components/Modals';
 import { useNotification, useSession } from '@hooks';
 import { DocumentListContext } from '@contexts';
 import { truncateText } from '@utils';
 import { DocumentTable } from '@components/Documents';
-import { Container } from '@mui/system';
 
+/**
+ * Documents - Component that generates Documents Page for PASS
+ *
+ * @memberof Pages
+ * @name Documents
+ * @returns {React.JSX.Component} The Documents Page
+ */
 const Documents = () => {
   // Route related states
   const location = useLocation();
