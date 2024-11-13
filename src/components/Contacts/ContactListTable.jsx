@@ -35,6 +35,7 @@ const ContactListTable = ({ contacts = [], deleteContact, handleDeleteContact, a
   const contactWebIds = contacts.map(({ webId }) => webId);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
@@ -55,7 +56,7 @@ const ContactListTable = ({ contacts = [], deleteContact, handleDeleteContact, a
         minHeight: '500px'
       }}
     >
-      {isSmallScreen ? (
+      {isSmallScreen || isSmallScreenHeight ? (
         <ContactListTableMobile
           data-testid="ContactListTableMobile"
           contacts={contacts}

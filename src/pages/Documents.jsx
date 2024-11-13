@@ -28,6 +28,7 @@ const Documents = () => {
   const { setContact } = useContext(DocumentListContext);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
 
   // Documents related states
   const { session } = useSession();
@@ -107,7 +108,7 @@ const Documents = () => {
           size="small"
           onClick={() => handleAclPermissionsModal('container')}
           sx={{
-            width: isSmallScreen ? '165px' : '200px',
+            width: isSmallScreen || isSmallScreenHeight ? '165px' : '200px',
             borderColor: 'primary.main',
             padding: '6px 12px'
           }}
@@ -119,7 +120,10 @@ const Documents = () => {
           color="primary"
           size="small"
           onClick={() => setShowAddDocModal(true)}
-          sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
+          sx={{
+            width: isSmallScreen || isSmallScreenHeight ? '140px' : '180px',
+            padding: '6px 12px'
+          }}
         >
           Add Document
         </Button>
