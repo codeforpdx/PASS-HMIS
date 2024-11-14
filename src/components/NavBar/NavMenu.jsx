@@ -10,6 +10,7 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import EmailIcon from '@mui/icons-material/Email';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -137,6 +138,18 @@ const NavMenu = ({
                 sx={iconStyling}
               >
                 Civic Profile
+              </MenuItem>
+            </Link>
+            <Link
+              to="/documents"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              <MenuItem
+                component={Button}
+                startIcon={<InventoryIcon sx={iconSize} />}
+                sx={iconStyling}
+              >
+                Documents
               </MenuItem>
             </Link>
             <Divider sx={{ my: '5px' }} />

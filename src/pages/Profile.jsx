@@ -133,7 +133,11 @@ const Profile = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        height: isSmallScreen ? 'auto' : '60dvh',
+        minHeight: '500px',
+        margin: '20px auto',
+        justifyContent: 'center'
       }}
     >
       <Box
@@ -146,7 +150,7 @@ const Profile = () => {
         }}
       >
         <Typography variant="h1" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
-          My Profile
+          {contact ? 'Shared Profile' : 'My Profile'}
         </Typography>
         {/* TODO: Determine whether this Box is needed */}
         {/* <Box
@@ -166,52 +170,45 @@ const Profile = () => {
             paddingLeft: '0px'
           }}
         >
-          {!contact && (
+          {contact && (
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               size="small"
-              onClick={() => handleAclPermissionsModal('container')}
-              sx={{
-                width: isSmallScreen ? '165px' : '200px',
-                borderColor: 'primary.main',
-                padding: '6px 12px'
-              }}
+              onClick={() => setShowAddDocModal(true)}
+              sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
             >
-              Share Documents
+              Add Document
             </Button>
           )}
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={() => setShowAddDocModal(true)}
-            sx={{ width: isSmallScreen ? '140px' : '180px', padding: '6px 12px' }}
-          >
-            Add Document
-          </Button>
         </Box>
         <ProfileComponent contactProfile={contactProfile} webId={webIdUrl} />
-        <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
-        <SetAclPermissionsModal
-          showModal={showAclPermissionModal}
-          setShowModal={setShowAclPermissionModal}
-          dataset={dataset}
-        />
-        <ConfirmationModal
-          showModal={showConfirmationModal}
-          setShowModal={setShowConfirmationModal}
-          title="Delete Document"
-          text={`You're about to delete "${truncatedText}" from the pod. Do you wish to continue?`}
-          onConfirm={handleDeleteDoc}
-          confirmButtonText="Delete"
-          processing={processing}
-        />
+        {contact && (
+          <>
+            <UploadDocumentModal showModal={showAddDocModal} setShowModal={setShowAddDocModal} />
+            <SetAclPermissionsModal
+              showModal={showAclPermissionModal}
+              setShowModal={setShowAclPermissionModal}
+              dataset={dataset}
+            />
+            <ConfirmationModal
+              showModal={showConfirmationModal}
+              setShowModal={setShowConfirmationModal}
+              title="Delete Document"
+              text={`You're about to delete "${truncatedText}" from the pod. Do you wish to continue?`}
+              onConfirm={handleDeleteDoc}
+              confirmButtonText="Delete"
+              processing={processing}
+            />
+          </>
+        )}
       </Box>
-      <DocumentTable
-        handleAclPermissionsModal={handleAclPermissionsModal}
-        handleSelectDeleteDoc={(document) => handleSelectDeleteDoc(document)}
-      />
+      {contact && (
+        <DocumentTable
+          handleAclPermissionsModal={handleAclPermissionsModal}
+          handleSelectDeleteDoc={(document) => handleSelectDeleteDoc(document)}
+        />
+      )}
     </Container>
   );
 };
