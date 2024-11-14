@@ -74,11 +74,6 @@ const ContactListTableDesktop = ({
     },
     {
       field: 'webId',
-      headerName: 'Web ID',
-      minWidth: 150,
-      flex: 1,
-      headerAlign: 'center',
-      align: 'center',
       renderCell: (contact) => (
         <Typography
           noWrap
@@ -87,7 +82,12 @@ const ContactListTableDesktop = ({
         >
           {contact.id}
         </Typography>
-      )
+      ),
+      headerName: 'Web ID',
+      minWidth: 150,
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center'
     },
     {
       field: 'Profile',
