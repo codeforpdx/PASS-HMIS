@@ -1,5 +1,6 @@
 // React Imports
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -41,6 +42,9 @@ import { truncateText, getTypeText } from '@utils';
  * @returns {React.JSX.Element} The DocumentCard component
  */
 const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
+  const location = useLocation();
+  const profileWebId = decodeURIComponent(location.pathname.split('/')[2]);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -149,22 +153,26 @@ const DocumentCard = ({ document, onShare, onDelete, onPreview }) => {
           >
             Preview
           </MenuItem>
-          <MenuItem
-            component={Button}
-            onClick={handleMenuItemClick(onShare, document)}
-            startIcon={<ShareIcon sx={iconSize} />}
-            sx={iconStyling}
-          >
-            Share
-          </MenuItem>
-          <MenuItem
-            component={Button}
-            onClick={handleMenuItemClick(onDelete, document)}
-            startIcon={<DeleteOutlineOutlinedIcon sx={iconSize} />}
-            sx={iconStyling}
-          >
-            Delete
-          </MenuItem>
+          {`${profileWebId}` === 'undefined' && (
+            <MenuItem
+              component={Button}
+              onClick={handleMenuItemClick(onShare, document)}
+              startIcon={<ShareIcon sx={iconSize} />}
+              sx={iconStyling}
+            >
+              Share
+            </MenuItem>
+          )}
+          {`${profileWebId}` === 'undefined' && (
+            <MenuItem
+              component={Button}
+              onClick={handleMenuItemClick(onDelete, document)}
+              startIcon={<DeleteOutlineOutlinedIcon sx={iconSize} />}
+              sx={iconStyling}
+            >
+              Delete
+            </MenuItem>
+          )}
         </Menu>
       </Card>
     </Box>

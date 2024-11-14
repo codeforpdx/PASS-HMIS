@@ -129,8 +129,8 @@ const AddContactModal = ({
   useEffect(() => {
     // sets fields if form is set to Edit
     if (isEditing) {
-      setUserGivenName(contactToEdit?.givenName);
-      setUserFamilyName(contactToEdit?.familyName);
+      setUserGivenName(contactToEdit?.givenName ?? '');
+      setUserFamilyName(contactToEdit?.familyName ?? '');
 
       // parse out webid and usernames and set them to the state values
       parsePodUrl();

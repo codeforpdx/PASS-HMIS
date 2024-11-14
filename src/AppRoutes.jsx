@@ -7,7 +7,7 @@ import { useSession } from '@hooks';
 import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
 // Page Imports
-import { CivicProfile, Home, Contacts, Profile, Signup } from './pages';
+import { CivicProfile, Documents, Home, Contacts, Profile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -58,6 +58,7 @@ const AppRoutes = () => {
           ))}
         </Route>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/documents" element={<Documents />} />
         {/* TODO: Remove blank Civic Profile page, ensure it directs Basic Information instead */}
         <Route path="/civic-profile" element={<CivicProfile />}>
           {CIVIC_FORM_LIST.map((formProps) => (

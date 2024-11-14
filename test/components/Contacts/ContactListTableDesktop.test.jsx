@@ -48,6 +48,12 @@ const contacts = [
     givenName: 'Bob',
     person: 'Bob Builder',
     webId: 'https://example.com/Builder'
+  },
+  {
+    familyName: 'Carl',
+    givenName: 'Carson',
+    person: 'Carl Carson',
+    webId: 'https://example.com/Carson'
   }
 ];
 

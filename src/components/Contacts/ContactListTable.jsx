@@ -26,15 +26,16 @@ import ContactListTableMobile from './ContactListTableMobile';
  * @param {Function} Props.addContact - from Contacts page
  * @returns {React.JSX.Element} The ContactListTable Component
  */
-const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addContact }) => {
+const ContactListTable = ({ contacts = [], deleteContact, handleDeleteContact, addContact }) => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageToField, setMessageToField] = useState('');
+  const [showAddContactModal, setShowAddContactModal] = useState(false);
+  const [contactToEdit, setContactToEdit] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const contactWebIds = contacts.map(({ webId }) => webId);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [showAddContactModal, setShowAddContactModal] = useState(false);
-  const [contactToEdit, setContactToEdit] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
+  const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
 
   const handleSendMessage = (contactId) => {
     setShowMessageModal(!showMessageModal);
@@ -47,17 +48,15 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
     setIsEditing(true);
   };
 
-  const contactWebIds = contacts.map(({ webId }) => webId);
-
   return (
     <Box
       sx={{
         margin: '20px 0',
         width: '95vw',
-        height: '500px'
+        minHeight: '500px'
       }}
     >
-      {isSmallScreen ? (
+      {isSmallScreen || isSmallScreenHeight ? (
         <ContactListTableMobile
           data-testid="ContactListTableMobile"
           contacts={contacts}
@@ -89,6 +88,7 @@ const ContactListTable = ({ contacts, deleteContact, handleDeleteContact, addCon
         handleDeleteContact={handleDeleteContact}
         contactWebIds={contactWebIds}
         contacts={contacts}
+        setContactToEdit={setContactToEdit}
       />
     </Box>
   );

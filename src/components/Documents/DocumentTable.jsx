@@ -37,6 +37,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
 
   /**
    * Handles the local display of a document by opening it in a new window.
@@ -98,7 +99,7 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
       }}
       data-testid="document-table"
     >
-      {isMobile ? (
+      {isMobile || isSmallScreenHeight ? (
         <DocumentsMobile documents={documents} handlers={handlers} data-testid="documents-mobile" />
       ) : (
         <DocumentsDesktop

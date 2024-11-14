@@ -113,7 +113,6 @@ it('selecting contact from autocomplete', async () => {
           {
             familyName: 'test',
             givenName: 'mock',
-            person: 'mock test',
             podUrl: 'http://example/mocktest',
             thingId: 'http://example/mocktest/profile/card#me',
             webId: 'http://example/mocktest/profile/card#me'
@@ -135,5 +134,5 @@ it('selecting contact from autocomplete', async () => {
   // Enter to select dropdown option
   await userEvent.keyboard('[Enter]');
   // verify value of input field
-  expect(toInput.value).toBe('mock test');
+  expect(toInput.value).toBe('http://example/mocktest');
 });

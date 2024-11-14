@@ -59,10 +59,19 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const contactListOptions =
-    data?.map((contact) => ({
-      label: `${contact.person} ${contact.podUrl}`,
-      id: contact.podUrl
-    })) ?? [];
+    data?.map((contact) => {
+      let contactName;
+      if (contact.givenName !== '' || contact.givenName !== null) {
+        contactName = contact.givenName;
+      }
+      if (contact.familyName !== '' || contact.familyName !== null) {
+        contactName += ` ${contact.familyName}`.trim();
+      }
+      return {
+        label: `${contactName} ${contact.podUrl}`.trim(),
+        id: contact.podUrl
+      };
+    }) ?? [];
   const recipientName = data?.filter((contact) => message.recipientPodUrl === contact.podUrl)[0];
   // Modifies message upon input
   const handleChange = (e) => {
@@ -137,7 +146,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
             data-testid="newMessageTo"
             id="recipientPodUrl"
             freeSolo
-            value={recipientName?.person ?? message.recipientPodUrl}
+            value={recipientName?.podUrl ?? message.recipientPodUrl}
             disablePortal
             autoSelect
             options={contactListOptions}

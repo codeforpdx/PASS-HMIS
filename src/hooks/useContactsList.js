@@ -50,16 +50,11 @@ const useContactsList = () => {
   };
 
   const serialize = ({ givenName, familyName, webId }) => {
-    let builder = buildThing(createThing({ name: encodeURIComponent(webId) }))
+    const builder = buildThing(createThing({ name: encodeURIComponent(webId) }))
       .addUrl(RDF_PREDICATES.identifier, webId)
-      .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0]);
-
-    if (givenName) {
-      builder = builder.addStringNoLocale(RDF_PREDICATES.givenName, givenName);
-    }
-    if (familyName) {
-      builder = builder.addStringNoLocale(RDF_PREDICATES.familyName, familyName);
-    }
+      .addUrl(RDF_PREDICATES.URL, webId.split('profile')[0])
+      .addStringNoLocale(RDF_PREDICATES.givenName, givenName ?? '')
+      .addStringNoLocale(RDF_PREDICATES.familyName, familyName ?? '');
 
     return builder.build();
   };
