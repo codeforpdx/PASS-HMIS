@@ -4,6 +4,7 @@ import React from 'react';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlined from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
+import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import {
   DataGrid,
@@ -12,6 +13,10 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector
 } from '@mui/x-data-grid';
+// Custom Hooks Imports
+import useNotification from '@hooks/useNotification';
+// Util Imports
+import { saveToClipboard } from '@utils';
 // Component Imports
 import ContactProfileIcon from './ContactProfileIcon';
 
@@ -49,6 +54,7 @@ const ContactListTableDesktop = ({
   handleSendMessage,
   'data-testid': dataTestId
 }) => {
+  const { addNotification } = useNotification();
   const theme = useTheme();
 
   const columnTitlesArray = [
@@ -72,7 +78,16 @@ const ContactListTableDesktop = ({
       minWidth: 150,
       flex: 1,
       headerAlign: 'center',
-      align: 'center'
+      align: 'center',
+      renderCell: (contact) => (
+        <Typography
+          noWrap
+          sx={{ cursor: 'pointer', fontSize: '0.875rem' }}
+          onClick={() => saveToClipboard(contact.id, 'webId copied to clipboard', addNotification)}
+        >
+          {contact.id}
+        </Typography>
+      )
     },
     {
       field: 'Profile',
@@ -101,7 +116,7 @@ const ContactListTableDesktop = ({
       field: 'Edit',
       renderCell: (contact) => (
         <EditOutlined
-          sx={{ color: 'gray', cursor: 'pointer' }}
+          sx={{ color: '#808080', cursor: 'pointer' }}
           onClick={() => editContact(contact.row.Profile)}
         />
       ),
