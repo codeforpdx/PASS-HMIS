@@ -13,9 +13,9 @@ const mockMessageInfo = {
   title: 'test title',
   uploadDate: new Date('1-1-2000')
 };
-const MockMessagePreview = () => (
+const MockMessagePreview = ({folderType = 'Inbox'}) => (
   <QueryClientProvider client={queryClient}>
-    <MessagePreview message={mockMessageInfo} folderType="Inbox" />
+    <MessagePreview message={mockMessageInfo} folderType={folderType} />
   </QueryClientProvider>
 );
 
@@ -57,5 +57,18 @@ describe('Grid sizes', () => {
     expect(senderCell.classList.contains('MuiGrid-grid-xs-12')).toBe(true);
     expect(subjectCell.classList.contains('MuiGrid-grid-xs-12')).toBe(true);
     expect(dateCell.classList.contains('MuiGrid-grid-xs-12')).toBe(true);
+  });
+});
+
+describe('Outbox shows Recipient instead of Sender', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders Recipient text', () => {
+    const { getByText } = render(<MockMessagePreview folderType="Outbox" />);
+    const recipientCell = getByText('Recipient:').parentElement;
+
+    expect(recipientCell.classList.contains('MuiGrid-grid-xs-5')).toBe(true);
   });
 });
