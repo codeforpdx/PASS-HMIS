@@ -74,10 +74,12 @@ const MessagePreview = ({ message, folderType }) => {
     return 2;
   };
 
+  const isInbox = folderType === 'Inbox';
+
   const messageInfo = [
     {
-      title: 'Sender: ',
-      text: message?.sender,
+      title: isInbox ? 'Sender: ' : 'Recipient: ',
+      text: isInbox ? message?.sender : message?.recipient,
       xs_value: isSmallScreen ? 12 : renderMediumGridLeft()
     },
     {
