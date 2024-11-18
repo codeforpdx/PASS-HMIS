@@ -13,7 +13,7 @@ const mockMessageInfo = {
   title: 'test title',
   uploadDate: new Date('1-1-2000')
 };
-const MockMessagePreview = ({folderType = 'Inbox'}) => (
+const MockMessagePreview = ({ folderType = 'Inbox' }) => (
   <QueryClientProvider client={queryClient}>
     <MessagePreview message={mockMessageInfo} folderType={folderType} />
   </QueryClientProvider>
