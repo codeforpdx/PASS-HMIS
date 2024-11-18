@@ -121,7 +121,6 @@ const DocumentsDesktop = ({ documents, handlers }) => {
       field: 'Delete',
       minWidth: 100,
       flex: 1,
-      flexShrink: 3,
       headerAlign: 'center',
       align: 'center',
       sortable: false,
