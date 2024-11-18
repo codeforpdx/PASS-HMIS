@@ -7,10 +7,15 @@ import createMatchMedia from '../../helpers/createMatchMedia';
 
 const queryClient = new QueryClient();
 
-const mockMessageInfo = { sender: 'test', recipient: 'testrecipient', title: 'test title', uploadDate: new Date('1-1-2000') };
+const mockMessageInfo = {
+  sender: 'test',
+  recipient: 'testrecipient',
+  title: 'test title',
+  uploadDate: new Date('1-1-2000')
+};
 const MockMessagePreview = () => (
   <QueryClientProvider client={queryClient}>
-    <MessagePreview message={mockMessageInfo} folderType='Inbox' />
+    <MessagePreview message={mockMessageInfo} folderType="Inbox" />
   </QueryClientProvider>
 );
 
