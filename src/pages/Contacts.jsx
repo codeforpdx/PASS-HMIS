@@ -158,7 +158,6 @@ const Contacts = () => {
                 }}
                 IconComponent={KeyboardArrowDownIcon}
               >
-                {' '}
                 <MenuItem value="Sort by:" disabled>
                   Sort by:
                 </MenuItem>
