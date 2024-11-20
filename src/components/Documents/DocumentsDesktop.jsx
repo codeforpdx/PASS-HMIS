@@ -69,11 +69,11 @@ const DocumentsDesktop = ({ documents, handlers }) => {
   const location = useLocation();
 
   const columnTitlesArray = [
-    { field: 'Name', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Type', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Description', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Upload Date', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Expiration Date', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'Name', minWidth: 120, flex: 3, headerAlign: 'center', align: 'center' },
+    { field: 'Type', minWidth: 120, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'Description', minWidth: 120, flex: 3, headerAlign: 'center', align: 'center' },
+    { field: 'Upload Date', minWidth: 120, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'Expiration Date', minWidth: 120, flex: 2, headerAlign: 'center', align: 'center' },
     {
       field: 'Preview',
       minWidth: 100,
