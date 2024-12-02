@@ -224,11 +224,9 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
             </DialogActions>
           </FormControl>
         </form>
-        {/* {processing && <LoadingAnimation loadingItem={file.name} />} */}
-        {/* <LoadingAnimation loadingItem={'testfilename'} /> */}
       </FormSection>
       <Backdrop open={processing}>
-        <LoadingAnimation loadingItem="file name" />
+        <LoadingAnimation loadingItem={file?.name} isModal />
       </Backdrop>
     </ModalBase>
   );
