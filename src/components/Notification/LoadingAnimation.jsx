@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
  * @name LoadingAnimation
  * @param {object} Props - Component props for LoadingAnimation
  * @param {string} Props.loadingItem - The name of what you plan on loading
- * @param {boolean} Props.isModal - The name of what you plan on loading
+ * @param {boolean} Props.isModal - If component is used in modal
  * @param Props.isModal
  * @param {React.JSX.Element} [Props.children] - If used as a provider, wrapped
  * component will be used as the animation
