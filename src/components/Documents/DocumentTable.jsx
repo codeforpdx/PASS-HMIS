@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { useMediaQuery } from '@mui/material';
 // Context Imports
 import { DocumentListContext } from '@contexts';
-import { useSession } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Utility Imports
 import { getBlobFromSolid } from '@utils';
 // Theme Imports
@@ -35,6 +35,7 @@ import DocumentsDesktop from './DocumentsDesktop';
 const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => {
   const { session } = useSession();
   const { documentListObject, loadingDocuments } = useContext(DocumentListContext);
+  const { addNotification } = useNotification();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
@@ -59,10 +60,21 @@ const DocumentTable = ({ handleAclPermissionsModal, handleSelectDeleteDoc }) => 
      * @returns {Promise<Blob>} A promise that resolves with the Blob of the document.
      * @throws {Error} Throws an error if there is an issue fetching the document blob.
      */
-    const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
+    try {
+      const urlFileBlob = await getBlobFromSolid(session, urlToOpen);
 
-    // Open a new window to display the document using the blob URL
-    window.open(urlFileBlob);
+      // Open a new window to display the document using the blob URL
+      window.open(urlFileBlob);
+    } catch (e) {
+      if (e?.statusCode === 403) {
+        addNotification('error', 'You do not have permission to view this document');
+      } else {
+        addNotification(
+          'error',
+          `Document preview failed. Reason: ${e?.message || 'Unknown error'}`
+        );
+      }
+    }
   };
 
   // Maps raw document types to user-friendly display names using `DOC_TYPES`

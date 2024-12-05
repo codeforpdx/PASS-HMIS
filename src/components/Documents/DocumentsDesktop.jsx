@@ -14,8 +14,6 @@ import {
 } from '@mui/x-data-grid';
 // Util Imports
 import { getTypeText } from '@utils';
-// Hooks Imports
-import { useSession } from '@hooks';
 // Theme Imports
 import theme from '../../theme';
 
@@ -68,16 +66,14 @@ const CustomToolbar = () => (
  * @returns {React.JSX.Element} The DocumentsDesktop component
  */
 const DocumentsDesktop = ({ documents, handlers }) => {
-  const { session } = useSession();
   const location = useLocation();
-  const profileWebId = decodeURIComponent(location.pathname.split('/')[2]);
 
   const columnTitlesArray = [
-    { field: 'Name', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Type', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Description', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Upload Date', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
-    { field: 'Expiration Date', minWidth: 120, flex: 1, headerAlign: 'center', align: 'center' },
+    { field: 'Name', minWidth: 120, flex: 3, headerAlign: 'center', align: 'center' },
+    { field: 'Type', minWidth: 120, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'Description', minWidth: 120, flex: 3, headerAlign: 'center', align: 'center' },
+    { field: 'Upload Date', minWidth: 120, flex: 2, headerAlign: 'center', align: 'center' },
+    { field: 'Expiration Date', minWidth: 120, flex: 2, headerAlign: 'center', align: 'center' },
     {
       field: 'Preview',
       minWidth: 100,
@@ -116,7 +112,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
             onClick={() => handlers.onShare('document', name, type)}
             label="Share"
             data-testid={`share-button-${id}`}
-            disabled={session.info.webId !== profileWebId}
+            disabled={location.pathname !== '/documents'}
           />
         );
       }
@@ -138,7 +134,7 @@ const DocumentsDesktop = ({ documents, handlers }) => {
             onClick={() => handlers.onDelete(document)}
             label="Delete"
             data-testid={`delete-button-${document.id}`}
-            disabled={session.info.webId !== profileWebId}
+            disabled={location.pathname !== '/documents'}
           />
         );
       }
