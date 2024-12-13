@@ -1,18 +1,33 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it, afterEach, vi } from 'vitest';
 import { MessagePreview } from '@components/Messages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
 const queryClient = new QueryClient();
 
-const mockMessageInfo = { sender: 'test', title: 'test title', uploadDate: new Date('1-1-2000') };
-const MockMessagePreview = () => (
+const mockMessageInfo = {
+  sender: 'test',
+  recipient: 'testrecipient',
+  title: 'test title',
+  uploadDate: new Date('1-1-2000')
+};
+const MockMessagePreview = ({ folderType = 'Inbox' }) => (
   <QueryClientProvider client={queryClient}>
-    <MessagePreview message={mockMessageInfo} />
+    <MessagePreview message={mockMessageInfo} folderType={folderType} />
   </QueryClientProvider>
 );
+
+vi.mock('react-router-dom', async () => {
+  const actual = vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: vi.fn().mockReturnValue({
+      pathname: '/contacts'
+    })
+  };
+});
 
 describe('Grid sizes', () => {
   afterEach(() => {
@@ -52,5 +67,18 @@ describe('Grid sizes', () => {
     expect(senderCell.classList.contains('MuiGrid-grid-xs-12')).toBe(true);
     expect(subjectCell.classList.contains('MuiGrid-grid-xs-12')).toBe(true);
     expect(dateCell.classList.contains('MuiGrid-grid-xs-12')).toBe(true);
+  });
+});
+
+describe('Outbox shows Recipient instead of Sender', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('renders Recipient text', () => {
+    const { getByText } = render(<MockMessagePreview folderType="Outbox" />);
+    const recipientCell = getByText('Recipient:').parentElement;
+
+    expect(recipientCell.classList.contains('MuiGrid-grid-xs-5')).toBe(true);
   });
 });

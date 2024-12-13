@@ -16,6 +16,16 @@ const MockNewMessageModal = () => (
   </QueryClientProvider>
 );
 
+vi.mock('react-router-dom', async () => {
+  const actual = vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: vi.fn().mockReturnValue({
+      pathname: '/contacts'
+    })
+  };
+});
+
 it('renders button group flex-direction as row default', () => {
   const { getByRole } = render(<MockNewMessageModal />);
   const cancelButton = getByRole('button', { name: 'Cancel' });

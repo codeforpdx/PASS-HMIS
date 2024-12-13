@@ -187,6 +187,18 @@ const ContactListTableMobile = ({
               >
                 <MenuItem
                   component={Button}
+                  onClick={handleMenuItemClick(
+                    () =>
+                      saveToClipboard(contact.webId, 'webId copied to clipboard', addNotification),
+                    contact
+                  )}
+                  startIcon={<ContentCopyIcon sx={iconSize} />}
+                  sx={iconStyling}
+                >
+                  Copy WebId
+                </MenuItem>
+                <MenuItem
+                  component={Button}
                   onClick={handleMenuItemClick(handleProfileClick, contact)}
                   startIcon={<ContactProfileIcon contact={contact} sx={iconSize} />}
                   sx={iconStyling}
@@ -208,21 +220,6 @@ const ContactListTableMobile = ({
                   sx={iconStyling}
                 >
                   Message
-                </MenuItem>
-                {/* TODO: Keep copy function? */}
-                {/* If so, also add to Desktop table? */}
-                {/* Maybe without any icon. Simply click on the web ID and it will copy? */}
-                <MenuItem
-                  component={Button}
-                  onClick={handleMenuItemClick(
-                    () =>
-                      saveToClipboard(contact.webId, 'webId copied to clipboard', addNotification),
-                    contact
-                  )}
-                  startIcon={<ContentCopyIcon sx={iconSize} />}
-                  sx={iconStyling}
-                >
-                  Copy WebId
                 </MenuItem>
                 <MenuItem
                   component={Button}

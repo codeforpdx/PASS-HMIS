@@ -1,5 +1,6 @@
 // React Imports
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 // Inrupt Library Imports
 import { useMessageList, useNotification, useSession, useContactsList } from '@hooks';
 // Material UI Imports
@@ -46,6 +47,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
   const { podUrl } = useContext(SignedInUserContext);
   const { addNotification } = useNotification();
   const [originalMessage, setOriginalMessage] = useState(oldMessage.message);
+  const location = useLocation();
 
   const [message, setMessage] = useState({
     recipientPodUrl:
@@ -111,7 +113,7 @@ const NewMessageModal = ({ showModal, setShowModal, oldMessage = '', toField = '
       await sendMessageTTL(session, messageWithTrimmedInputs, podUrl);
 
       setMessage({
-        recipientPodUrl: '',
+        recipientPodUrl: location.pathname === '/contacts' ? toField : '',
         title: '',
         message: ''
       });
