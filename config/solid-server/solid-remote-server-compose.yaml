@@ -1,0 +1,13 @@
+services:
+  solid-server:
+  image: solidproject/community-server:7.0
+  restart: always
+  user: root
+  ports:
+    - '3000:3000'
+  environment:
+    - BASE_URL=https://opencommons.net
+  command: ['--baseUrl', 'https://opencommons.net']
+  volumes:
+    - ./data/solid-data:/data
+    - ./config/solid-server/solid-config.json:/community-server/config/my-config.json
