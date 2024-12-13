@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { describe, expect, it, afterEach } from 'vitest';
+import { describe, expect, it, afterEach, vi } from 'vitest';
 import { MessagePreview } from '@components/Messages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMatchMedia from '../../helpers/createMatchMedia';
@@ -18,6 +18,16 @@ const MockMessagePreview = ({ folderType = 'Inbox' }) => (
     <MessagePreview message={mockMessageInfo} folderType={folderType} />
   </QueryClientProvider>
 );
+
+vi.mock('react-router-dom', async () => {
+  const actual = vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: vi.fn().mockReturnValue({
+      pathname: '/contacts'
+    })
+  };
+});
 
 describe('Grid sizes', () => {
   afterEach(() => {
