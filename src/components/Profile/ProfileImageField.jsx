@@ -19,12 +19,12 @@ import ConfirmationModal from '../Modals/ConfirmationModal';
  *
  * @memberof Profile
  * @name ProfileImageField
- * @param {object} Props - Props used for NewMessage
+ * @param {object} Props - Props used for ProfileImageField
  * @param {() => void} Props.loadProfileData - Handler function for setting local
  * state for profile card in PASS
  * @param {object} [Props.contactProfile] - Contact object with data from profile
  * or null if user profile is selected
- * @returns {React.JSX.Element} React component for NewMessage
+ * @returns {React.JSX.Element} React component for ProfileImageField
  */
 const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const { addNotification } = useNotification();
@@ -34,6 +34,7 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
   const [profileImg, setProfileImg] = useState(localStorage.getItem('profileImage'));
   const [processing, setProcessing] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [hover, setHover] = useState(false);
 
   const handleProfileImage = async (event) => {
     if (event.target.files[0].size > 1 * 1000 * 1024) {
@@ -69,6 +70,24 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
     setShowConfirmationModal(true);
   };
 
+  const iconButtonStyling = {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top: '50%',
+    left: '50%',
+    opacity: 0.8,
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    border: 'none',
+    color: '#FFFFFF',
+    backgroundColor: '#545454',
+    '&:hover': {
+      backgroundColor: '#545454'
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -76,39 +95,70 @@ const ProfileImageField = ({ loadProfileData, contactProfile }) => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '20px',
-        gap: '10px'
+        padding: '20px'
       }}
     >
-      <Avatar
-        src={contactProfile ? contactProfile.profileImage : profileImg}
-        alt="PASS profile"
-        sx={{ height: '100px', width: '100px', objectFit: 'contain' }}
-      />
-      {!contactProfile &&
-        (profileImg ? (
-          <Button
-            variant="outlined"
-            color="error"
-            sx={{ width: '150px' }}
-            onClick={handleSelectRemoveProfileImg}
-            endIcon={<HideImageIcon />}
-          >
-            Remove Img
-          </Button>
-        ) : (
-          <Button
-            variant="outlined"
-            component="label"
-            color="primary"
-            onChange={handleProfileImage}
-            endIcon={<ImageIcon />}
-            sx={{ width: '150px' }}
-          >
-            Choose Img
-            <input type="file" hidden accept=".gif, .png, .jpeg, .jpg, .webp" />
-          </Button>
-        ))}
+      <Box
+        position="relative"
+        display="inline-block"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Avatar
+          src={contactProfile?.profileImage || profileImg || ''}
+          alt="PASS profile"
+          sx={{
+            height: '100px',
+            width: '100px'
+          }}
+        />
+        {hover && (
+          <>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '50%'
+              }}
+            />
+            {contactProfile || profileImg ? (
+              <Button
+                data-testid="deleteProfilePictureIcon"
+                aria-label="delete-profile-picture"
+                component="label"
+                variant="contained"
+                startIcon={<HideImageIcon />}
+                onClick={handleSelectRemoveProfileImg}
+                sx={iconButtonStyling}
+              >
+                Delete
+              </Button>
+            ) : (
+              <Button
+                data-testid="uploadProfilePictureIcon"
+                aria-label="upload-profile-picture"
+                component="label"
+                variant="contained"
+                startIcon={<ImageIcon />}
+                sx={iconButtonStyling}
+              >
+                Upload
+                <input
+                  type="file"
+                  hidden
+                  accept=".gif, .png, .jpeg, .jpg, .webp"
+                  onChange={handleProfileImage}
+                />
+              </Button>
+            )}
+          </>
+        )}
+      </Box>
+
       <ConfirmationModal
         showModal={showConfirmationModal}
         setShowModal={setShowConfirmationModal}
