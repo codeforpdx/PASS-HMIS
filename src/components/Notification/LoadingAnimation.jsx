@@ -18,11 +18,13 @@ import Typography from '@mui/material/Typography';
  * @name LoadingAnimation
  * @param {object} Props - Component props for LoadingAnimation
  * @param {string} Props.loadingItem - The name of what you plan on loading
+ * @param {boolean} Props.isModal - If component is used in modal
+ * @param Props.isModal
  * @param {React.JSX.Element} [Props.children] - If used as a provider, wrapped
  * component will be used as the animation
  * @returns {React.ReactElement} Div of what is currently loading
  */
-const LoadingAnimation = ({ loadingItem, children }) => (
+const LoadingAnimation = ({ loadingItem, children, isModal }) => (
   <Box
     sx={{
       my: '3rem',
@@ -34,7 +36,15 @@ const LoadingAnimation = ({ loadingItem, children }) => (
     }}
     data-testid="loading-animation"
   >
-    <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>
+    <Paper
+      elevation={2}
+      sx={{
+        display: 'inline-block',
+        mx: '2px',
+        padding: '20px',
+        backgroundColor: isModal ? 'background.tint' : 'background.main'
+      }}
+    >
       <Typography variant="h5" component="h2" mb={2} align="center">
         Loading {loadingItem}...
       </Typography>

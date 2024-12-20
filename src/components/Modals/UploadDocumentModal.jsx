@@ -7,6 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DialogActions from '@mui/material/DialogActions';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FormControl from '@mui/material/FormControl';
+import Backdrop from '@mui/material/Backdrop';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 // import Switch from '@mui/material/Switch';
@@ -20,6 +21,7 @@ import { useTheme } from '@mui/material/styles';
 // Context Imports
 import { DocumentListContext } from '@contexts';
 // Component Imports
+import { LoadingAnimation } from '@components/Notification';
 import ModalBase from './ModalBase';
 import { DocumentSelection, FormSection } from '../Form';
 import UploadButtonGroup from './UploadButtonGroup';
@@ -223,6 +225,9 @@ const UploadDocumentModal = ({ showModal, setShowModal }) => {
           </FormControl>
         </form>
       </FormSection>
+      <Backdrop open={processing}>
+        <LoadingAnimation loadingItem={file?.name} isModal />
+      </Backdrop>
     </ModalBase>
   );
 };
