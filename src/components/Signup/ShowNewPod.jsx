@@ -22,10 +22,12 @@ const ShowNewPod = ({ oidcIssuer, podUrl, webId }) => {
 
   return (
     <Box>
-      <Typography variant="h1" class="text-lg">
-        {podUrl
-          ? 'You have successfully registered for a pod.'
-          : 'You have logged in with your existing pod.'}
+      <Typography variant="h5">
+        {podUrl ? (
+          <strong>You have successfully registered for a pod.</strong>
+        ) : (
+          <strong>You have logged in with your existing pod.</strong>
+        )}
       </Typography>
       <Box>
         {podUrl && (

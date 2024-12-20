@@ -12,11 +12,11 @@ import NavbarLoggedOut from './NavbarLoggedOut';
 import NavbarMobile from './NavbarMobile';
 
 /**
- * NavBar Component - Component that generates proper NavBar section for PASS
+ * NavBar - Component that generates proper NavBar section for PASS
  *
  * @memberof NavBar
  * @name NavBar
- * @returns {React.JSX.Element} - The Navbar component
+ * @returns {React.JSX.Element} The Navbar component
  */
 const NavBar = () => {
   const { session } = useSession();

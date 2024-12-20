@@ -10,6 +10,7 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import EmailIcon from '@mui/icons-material/Email';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,7 +22,7 @@ import { DocumentListContext } from '@contexts';
 import { useMessageList } from '@hooks';
 
 /**
- * NavMenu Component - Component that generates NavMenu section for PASS
+ * NavMenu - Component that generates NavMenu section for PASS
  *
  * @memberof NavBar
  * @name NavMenu
@@ -77,8 +78,6 @@ const NavMenu = ({
           sx: {
             p: '15px 15px 0 15px',
             borderRadius: isSmallScreen ? '0 15px 15px 0px' : '5px'
-            // width: isSmallScreen ? '75vw' : 0
-            // minWidth: '50dvw'
           }
         }
       }
@@ -139,6 +138,18 @@ const NavMenu = ({
                 sx={iconStyling}
               >
                 Civic Profile
+              </MenuItem>
+            </Link>
+            <Link
+              to="/documents"
+              style={{ textDecoration: 'none', color: theme.palette.primary.main }}
+            >
+              <MenuItem
+                component={Button}
+                startIcon={<InventoryIcon sx={iconSize} />}
+                sx={iconStyling}
+              >
+                Documents
               </MenuItem>
             </Link>
             <Divider sx={{ my: '5px' }} />

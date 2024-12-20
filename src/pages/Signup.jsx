@@ -2,16 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Custom Hooks Imports
-import { useSession, useNotification } from '@hooks';
+import { useNotification, useSession } from '@hooks';
 // Inrupt Imports
-import { getThing, getWebIdDataset, getStringNoLocale } from '@inrupt/solid-client';
+import { getStringNoLocale, getThing, getWebIdDataset } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import { Typography } from '@mui/material';
-// Constant Imports
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+// Constants Imports
 import { ENV } from '@constants';
 // Signup Form Imports
 import {
@@ -21,6 +23,43 @@ import {
   registerPod,
   ExistingPodForm
 } from '@components/Signup';
+
+const PassRegistrationTab = ({ register, caseManagerName, previousInfo }) => {
+  const [value, setValue] = useState('1');
+
+  const handleChange = (_event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant="h4" component="h1" align="center">
+          Sign Up
+        </Typography>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="New or Existing Pod"
+          variant="fullWidth"
+        >
+          <Tab label="New Pod" value="1" />
+          <Tab label="Existing Pod" value="2" />
+        </Tabs>
+      </Box>
+      <Box hidden={value !== '1'}>
+        <PodRegistrationForm
+          register={register}
+          caseManagerName={caseManagerName}
+          previousInfo={previousInfo}
+        />
+      </Box>
+      <Box hidden={value !== '2'}>
+        <ExistingPodForm />
+      </Box>
+    </Box>
+  );
+};
 
 /**
  * Signup - First screen in the user registration flow.
@@ -32,7 +71,7 @@ import {
  */
 const Signup = () => {
   const [oidcIssuer] = useState(ENV.VITE_SOLID_IDENTITY_PROVIDER);
-  const [storredIssuer, setStorredIssuer] = useState(null);
+  const [storedIssuer, setStoredIssuer] = useState(null);
   const [searchParams] = useSearchParams();
   const caseManagerWebId = decodeURIComponent(searchParams.get('webId'));
   const [caseManagerName, setCaseManagerName] = useState();
@@ -96,45 +135,40 @@ const Signup = () => {
     }
 
     const storedOidcIssuer = localStorage.getItem('oidcIssuer', oidcIssuer);
-    setStorredIssuer(storedOidcIssuer);
+    setStoredIssuer(storedOidcIssuer);
   }, [session.info.isLoggedIn, window.location.href]);
 
   return (
-    <Container>
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 3,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           alignItems: 'center'
         }}
       >
         <Paper
           elevation={2}
           sx={{
-            display: 'inline-block',
             mx: '2px',
             padding: '20px',
-            minWidth: '400px',
+            margin: '24px',
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
           }}
         >
           {step === 'begin' && (
-            <>
-              <PodRegistrationForm
-                previousInfo={previousInfo}
-                register={registerAndInitialize}
-                caseManagerName={caseManagerName}
-              />
-              <ExistingPodForm />
-            </>
+            <PassRegistrationTab
+              previousInfo={previousInfo}
+              register={registerAndInitialize}
+              caseManagerName={caseManagerName}
+            />
           )}
           {step === 'loading' && <Typography>Creating Pod...</Typography>}
           {step === 'done' && (
             <ShowNewPod
               oidcIssuer={oidcIssuer}
-              oidcExisting={storredIssuer}
+              oidcExisting={storedIssuer}
               podUrl={registrationInfo.podUrl}
               webId={session.info.webId}
             />

@@ -4,11 +4,12 @@
  * @memberof utils
  * @function truncateText
  * @param {string} text - Text to be truncated
+ * @param {number} cutoff - Where to cut the text off
  * @returns {string} Returns the truncated text
  */
-const truncateText = (text) => {
-  if (text.length > 25) {
-    return `${text.substring(0, 25)}...`;
+const truncateText = (text, cutoff = 25) => {
+  if (text.length > cutoff) {
+    return `${text.substring(0, cutoff)}...`;
   }
   return text;
 };

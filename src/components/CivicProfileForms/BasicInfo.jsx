@@ -16,7 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // Dependency Imports
 import dayjs from 'dayjs';
-// Hooks Imports
+// Custom Hooks Imports
 import { useCivicProfile, useNotification } from '@hooks';
 // Component Imports
 import { FormSection } from '../Form';
@@ -84,7 +84,7 @@ const BasicInfo = () => {
   return (
     <FormSection title="Basic Information">
       <form aria-labelledby="hmis-basic-info-form" onSubmit={handleSubmit} autoComplete="off">
-        <Grid container spacing={2}>
+        <Grid container spacing={2} mt={0} mb={2}>
           <Grid item xs={12} md={6}>
             <TextField
               id="hmis-basic-info-first-name"
@@ -147,7 +147,9 @@ const BasicInfo = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={6}>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
             <Button
               variant="outlined"
               type="button"
@@ -155,14 +157,13 @@ const BasicInfo = () => {
               color="error"
               startIcon={<ClearIcon />}
               fullWidth
-              sx={{ borderRadius: '20px' }}
               onClick={handleClear}
               aria-label="Clear button"
             >
               Clear
             </Button>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <Button
               variant="contained"
               type="submit"
@@ -170,7 +171,6 @@ const BasicInfo = () => {
               color="primary"
               startIcon={<CheckIcon />}
               fullWidth
-              sx={{ borderRadius: '20px' }}
               disabled={!isSuccess}
               aria-label="Submit button"
             >

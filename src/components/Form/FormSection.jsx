@@ -25,12 +25,7 @@ const FormSection = ({ title, headingId, children }) => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '20px',
-        width: '100%'
+        p: '20px'
       }}
     >
       <Typography

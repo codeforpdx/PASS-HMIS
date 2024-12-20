@@ -1,15 +1,19 @@
 // React Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import { FormControl, Select, MenuItem, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/system';
+import FormControl from '@mui/material/FormControl';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// Component Imports
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/system';
+// Custom Hooks Imports
 import { useContactsList, useNotification } from '@hooks';
+// Component Imports
 import { AddContactModal, ConfirmationModal } from '@components/Modals';
 import { ContactListTable } from '@components/Contacts';
 import { LoadingAnimation, EmptyListNotification } from '@components/Notification';
@@ -17,7 +21,7 @@ import { LoadingAnimation, EmptyListNotification } from '@components/Notificatio
 import { truncateText } from '@utils';
 
 /**
- * Contacts Component - Component that generates Contacts Page for PASS
+ * Contacts - Component that generates Contacts Page for PASS
  *
  * @memberof Pages
  * @name Contacts
@@ -32,16 +36,54 @@ const Contacts = () => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [selectedContactToDelete, setSelectedContactToDelete] = useState(null);
+  const [deleteViaEdit, setDeleteViaEdit] = useState(false);
+  const [sortValue, setSortValue] = useState('Sort by:');
+  const [sortedData, setSortedData] = useState([]);
   const {
-    data,
+    data = [],
     isLoading,
     isError,
     error,
+    refetch,
     add: addContact,
     delete: deleteContact
   } = useContactsList();
   const { addNotification } = useNotification();
-  const [fieldType, setFieldType] = useState('First Name');
+
+  const sortData = (value) => {
+    const sorted = [...data].sort((a, b) => {
+      if (value === 'Default') {
+        return data;
+      }
+      if (value === 'First Name') {
+        return a.givenName.localeCompare(b.givenName);
+      }
+      if (value === 'Last Name') {
+        return a.familyName.localeCompare(b.familyName);
+      }
+      if (value === 'Web ID') {
+        return a.webId.localeCompare(b.webId);
+      }
+      return 0;
+    });
+    setSortedData(sorted);
+  };
+
+  const handleSortChange = (event) => {
+    const { value } = event.target;
+    setSortValue(value);
+    sortData(value);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setSortedData(data);
+    }
+  }, [data]);
 
   const getContactDisplayName = (contact) => {
     if (!contact) {
@@ -60,11 +102,17 @@ const Contacts = () => {
     setShowConfirmationModal(true);
   };
 
-  const handleDeleteContact = async () => {
+  const handleDeleteContact = async (contact) => {
     setProcessing(true);
     try {
       await deleteContact(selectedContactToDelete);
-
+      // Edit passes the contact as a parameter, deleting from the list table does not
+      if (Object.hasOwn(contact, 'webId')) {
+        await deleteContact(contact);
+        setDeleteViaEdit(!deleteViaEdit);
+      } else {
+        await deleteContact(selectedContactToDelete);
+      }
       addNotification('success', `"${truncatedText}" deleted from contact list.`);
     } catch (e) {
       addNotification('error', `Contact deletion failed. Reason: ${e.message}`);
@@ -76,6 +124,7 @@ const Contacts = () => {
 
   if (isLoading) return <LoadingAnimation loadingItem="Contacts" />;
   if (isError) return <Typography>Error loading contacts list: {error.message}</Typography>;
+
   return (
     <Container
       sx={{
@@ -91,9 +140,9 @@ const Contacts = () => {
             <FormControl sx={{ minWidth: 120 }} size="small">
               <Select
                 id="contact-select-field-small"
-                value={fieldType}
                 defaultValue="First Name"
-                onChange={(e) => setFieldType(e.target.value)}
+                value={sortValue}
+                onChange={handleSortChange}
                 sx={{
                   borderRadius: '8px',
                   color: 'primary.main',
@@ -109,8 +158,13 @@ const Contacts = () => {
                 }}
                 IconComponent={KeyboardArrowDownIcon}
               >
+                <MenuItem value="Sort by:" disabled>
+                  Sort by:
+                </MenuItem>
+                <MenuItem value="Default">Default</MenuItem>
                 <MenuItem value="First Name">First Name</MenuItem>
                 <MenuItem value="Last Name">Last Name</MenuItem>
+                <MenuItem value="Web ID">Web ID</MenuItem>
               </Select>
             </FormControl>
           )}
@@ -126,8 +180,10 @@ const Contacts = () => {
         </Box>
         {data.length > 0 ? (
           <ContactListTable
-            contacts={data}
+            contacts={isSmallScreen ? sortedData : data}
             deleteContact={(contact) => handleSelectDeleteContact(contact)}
+            handleDeleteContact={handleDeleteContact}
+            addContact={addContact}
           />
         ) : (
           <EmptyListNotification type="Contacts" />

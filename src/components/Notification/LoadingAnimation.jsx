@@ -34,6 +34,7 @@ const LoadingAnimation = ({ loadingItem, children, isModal }) => (
       textAlign: 'center',
       padding: '20px'
     }}
+    data-testid="loading-animation"
   >
     <Paper
       elevation={2}

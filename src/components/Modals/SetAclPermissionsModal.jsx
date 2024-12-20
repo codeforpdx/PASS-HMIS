@@ -23,7 +23,7 @@ import ModalBase from './ModalBase';
 import { FormSection } from '../Form';
 
 /**
- * SetPermissionsModal Component - Modal component that generates the form for
+ * SetPermissionsModal - Modal component that generates the form for
  * setting ACL permissions to another user's documents, or document container
  * in their Solid Pod via Solid Session.
  *
@@ -121,7 +121,7 @@ const SetAclPermissionsModal = ({ showModal, setShowModal, dataset }) => {
     <ModalBase open={showModal} onClose={clearInputFields}>
       <FormSection
         title={
-          dataset.modalType === 'container' ? 'Share All Documents' : `Share ${dataset.docName}`
+          dataset.modalType === 'container' ? 'Share All Documents' : `Share "${dataset.docName}"`
         }
       >
         <form onSubmit={handleAclPermission} autoComplete="off" style={{ width: '100%' }}>

@@ -1,4 +1,6 @@
 import ContactListTable from './ContactListTable';
+import ContactListTableDesktop from './ContactListTableDesktop';
+import ContactListTableMobile from './ContactListTableMobile';
 import ContactProfileIcon from './ContactProfileIcon';
 
 /**
@@ -7,4 +9,4 @@ import ContactProfileIcon from './ContactProfileIcon';
  * @namespace Contacts
  */
 
-export { ContactListTable, ContactProfileIcon };
+export { ContactListTable, ContactListTableDesktop, ContactListTableMobile, ContactProfileIcon };

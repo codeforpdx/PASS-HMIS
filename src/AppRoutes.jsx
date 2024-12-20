@@ -1,13 +1,13 @@
 // React Imports
 import React from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 // Inrupt Imports
 import { useSession } from '@hooks';
 // Component Imports
 import { CIVIC_FORM_LIST, FormLayout } from '@components/CivicProfileForms';
 import { MESSAGE_PAGES_LIST, MessagesLayout } from '@components/Messages';
 // Page Imports
-import { CivicProfile, Home, Contacts, Profile, Signup } from './pages';
+import { CivicProfile, Documents, Home, Contacts, Profile, Signup } from './pages';
 
 const ProtectedRoute = ({ isLoggedIn, children }) =>
   isLoggedIn ? children ?? <Outlet /> : <Navigate to="/" replace />;
@@ -23,6 +23,11 @@ const AppRoutes = () => {
   const restorePath = localStorage.getItem('restorePath');
   const loggedIn = session.info.isLoggedIn;
   const path = loggedIn ? restorePath || '/contacts' : '/';
+  const location = useLocation();
+
+  if (location.pathname === '/civic-profile') {
+    return <Navigate to="/civic-profile/basic-info" replace />;
+  }
 
   return (
     <Routes>
@@ -53,9 +58,12 @@ const AppRoutes = () => {
           ))}
         </Route>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/documents" element={<Documents />} />
+        {/* TODO: Remove blank Civic Profile page, ensure it directs Basic Information instead */}
         <Route path="/civic-profile" element={<CivicProfile />}>
           {CIVIC_FORM_LIST.map((formProps) => (
             <Route
+              key={formProps.path}
               {...formProps}
               element={
                 <FormLayout>

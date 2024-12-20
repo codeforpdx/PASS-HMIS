@@ -27,6 +27,7 @@ const EmptyListNotification = ({ type }) => {
     <Container
       aria-label="No Items Found Box"
       sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      data-testid="empty-list"
     >
       <Box sx={{ my: '3rem' }}>
         <Paper elevation={2} sx={{ display: 'inline-block', mx: '2px', padding: '20px' }}>

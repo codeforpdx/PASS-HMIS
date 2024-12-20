@@ -23,7 +23,7 @@ describe('Contacts Page', () => {
   });
 
   it('displays Loading message while loading', () => {
-    useContactsList.mockReturnValue({ isLoading: true });
+    useContactsList.mockReturnValue({ isLoading: true, refetch: vi.fn() });
     const { getByRole } = render(
       <QueryClientProvider client={queryClient}>
         <Contacts />
@@ -35,7 +35,11 @@ describe('Contacts Page', () => {
 
   it('displays Errors when fetch errors', () => {
     const errorMessage = 'error';
-    useContactsList.mockReturnValue({ isError: true, error: { message: errorMessage } });
+    useContactsList.mockReturnValue({
+      isError: true,
+      error: { message: errorMessage },
+      refetch: vi.fn()
+    });
     const { getByText } = render(
       <QueryClientProvider client={queryClient}>
         <Contacts />
@@ -58,7 +62,7 @@ describe('Contacts Page', () => {
       givenName: 'Batman',
       webId: 'http://batman.com'
     };
-    useContactsList.mockReturnValue({ data: [firstContact, secondContact] });
+    useContactsList.mockReturnValue({ data: [firstContact, secondContact], refetch: vi.fn() });
     const { getByRole } = render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
@@ -69,8 +73,9 @@ describe('Contacts Page', () => {
     const contacts = getByRole('grid');
     expect(contacts).not.toBeNull();
   });
+
   it('displays empty list message when there are no contacts', () => {
-    useContactsList.mockReturnValue({ data: [] });
+    useContactsList.mockReturnValue({ data: [], refetch: vi.fn() });
     const { getByLabelText } = render(
       <QueryClientProvider client={queryClient}>
         <Contacts />

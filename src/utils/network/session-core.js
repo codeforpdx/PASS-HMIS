@@ -41,7 +41,7 @@ import {
  */
 export const setDocAclPermission = async (session, docName, permissions, podUrl, webId) => {
   const containerUrl = `${podUrl}PASS/Documents/`;
-  const documentUrl = `${containerUrl}${docName.replace("'", '').replace(' ', '_')}`;
+  const documentUrl = `${containerUrl}${docName.replace("'", '').replace(' ', '%20')}`;
 
   await universalAccess.setAgentAccess(documentUrl, webId, permissions, { fetch: session.fetch });
 };

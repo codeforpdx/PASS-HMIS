@@ -11,6 +11,7 @@ import formattedDate from './barcode/barcode-date-parser';
 import createPASSContainer, { generateACL } from './pod-management/pod-helper';
 import saveToClipboard from './text/saveToClipboard';
 import truncateText from './text/truncateText';
+import getTypeText from './text/documentTypes';
 
 export {
   getDriversLicenseData,
@@ -18,7 +19,8 @@ export {
   createPASSContainer,
   generateACL,
   saveToClipboard,
-  truncateText
+  truncateText,
+  getTypeText
 };
 
 export * from './network/session-core';

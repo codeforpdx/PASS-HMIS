@@ -3,6 +3,7 @@ import useNotification from './useNotification';
 import useCivicProfile from './useCivicProfile';
 import useSession from './useSession';
 import useMessageList from './useMessageList';
+import useTableSort from './useTableSort';
 /**
  * The hooks module contains custom hooks to assist with form handling or status
  * notifications
@@ -10,4 +11,11 @@ import useMessageList from './useMessageList';
  * @namespace hooks
  */
 
-export { useContactsList, useNotification, useSession, useCivicProfile, useMessageList };
+export {
+  useContactsList,
+  useNotification,
+  useSession,
+  useCivicProfile,
+  useMessageList,
+  useTableSort
+};

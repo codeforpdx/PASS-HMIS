@@ -8,6 +8,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionContext } from '@contexts';
 import { initializePod, registerPod } from '@components/Signup';
 import { useNotification } from '@hooks';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../src/theme';
 
 vi.mock('@hooks', async () => {
   const actual = await vi.importActual('@hooks');
@@ -52,11 +54,13 @@ const queryClient = new QueryClient({
 
 const MockSignupContexts = ({ session }) => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <SessionContext.Provider value={session}>
-        <Signup />
-      </SessionContext.Provider>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <SessionContext.Provider value={session}>
+          <Signup />
+        </SessionContext.Provider>
+      </BrowserRouter>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
@@ -75,7 +79,7 @@ describe('Signup Page', () => {
     };
     useNotification.mockReturnValue({ addNotification: vi.fn() });
     const { getByRole } = render(<MockSignupContexts session={sessionObj} />);
-    expect(getByRole('heading', { name: 'Register For PASS' })).not.toBeNull();
+    expect(getByRole('heading', { name: 'Sign Up' })).not.toBeNull();
   });
   it('lets users request to create pods', async () => {
     const session = {

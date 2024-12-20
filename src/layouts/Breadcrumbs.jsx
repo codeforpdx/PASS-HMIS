@@ -36,7 +36,11 @@ const Breadcrumbs = () => {
     <MUIBreadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextIcon fontSize="small" />}
-      sx={{ margin: { xs: '20px', sm: '20px 80px' } }}
+      sx={{
+        margin: { xs: '20px', sm: '20px 80px' },
+        wordWrap: 'break-word',
+        overflowWrap: 'break-word'
+      }}
     >
       {crumbs.map((crumb, index) =>
         index !== crumbs.length - 1 ? (
@@ -47,11 +51,20 @@ const Breadcrumbs = () => {
               .replaceAll(' ', '-')
               .toLowerCase()}`}
             key={crumb}
+            style={{
+              wordBreak: 'break-word'
+            }}
           >
             {crumb}
           </Link>
         ) : (
-          <Typography component="h2" key={crumb}>
+          <Typography
+            component="h2"
+            key={crumb}
+            sx={{
+              wordBreak: 'break-word'
+            }}
+          >
             {crumb}
           </Typography>
         )

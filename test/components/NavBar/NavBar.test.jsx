@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
-import { expect, it, afterEach, describe } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { SessionContext } from '@contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import NavBar from '../../../src/components/NavBar/NavBar';
 import createMatchMedia from '../../helpers/createMatchMedia';
 
-// clear created dom after each test, to start fresh for next
+// Clear created DOM after each test
 afterEach(() => {
   cleanup();
 });

@@ -20,7 +20,7 @@ import { DocumentListContext } from '@contexts';
  */
 
 /**
- * ContactProfileIcon Component - Component that generates the contact profile
+ * ContactProfileIcon - Component that generates the contact profile
  * icon for the Contacts List which is a special link to their profile page
  *
  * @memberof Contacts

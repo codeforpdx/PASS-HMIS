@@ -1,5 +1,6 @@
 // React Imports
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 // Inrupt Library Imports
 import { useSession, useNotification } from '@hooks';
 // Material UI Imports
@@ -14,18 +15,18 @@ import Main from './Main';
 const Layout = ({ ariaLabel, children }) => {
   const { session } = useSession();
   const { state } = useNotification();
+  const location = useLocation();
 
   return (
     <Box
       aria-label={ariaLabel}
       sx={{
-        display: 'grid',
         minHeight: '100vh'
       }}
     >
       <NavBarSkipLink />
       <NavBar />
-      {session.info.isLoggedIn && <Breadcrumbs />}
+      {session.info.isLoggedIn && location.pathname !== '/profile' && <Breadcrumbs />}
       <Main>{children}</Main>
       {session.info.isLoggedIn && <InactivityMessage />}
       <Footer />

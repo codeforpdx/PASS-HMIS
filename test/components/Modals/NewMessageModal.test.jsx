@@ -16,6 +16,16 @@ const MockNewMessageModal = () => (
   </QueryClientProvider>
 );
 
+vi.mock('react-router-dom', async () => {
+  const actual = vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: vi.fn().mockReturnValue({
+      pathname: '/contacts'
+    })
+  };
+});
+
 it('renders button group flex-direction as row default', () => {
   const { getByRole } = render(<MockNewMessageModal />);
   const cancelButton = getByRole('button', { name: 'Cancel' });
@@ -113,7 +123,6 @@ it('selecting contact from autocomplete', async () => {
           {
             familyName: 'test',
             givenName: 'mock',
-            person: 'mock test',
             podUrl: 'http://example/mocktest',
             thingId: 'http://example/mocktest/profile/card#me',
             webId: 'http://example/mocktest/profile/card#me'
@@ -135,5 +144,5 @@ it('selecting contact from autocomplete', async () => {
   // Enter to select dropdown option
   await userEvent.keyboard('[Enter]');
   // verify value of input field
-  expect(toInput.value).toBe('mock test');
+  expect(toInput.value).toBe('http://example/mocktest');
 });

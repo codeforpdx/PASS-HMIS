@@ -27,7 +27,8 @@ import { HomeSection, KeyFeatures } from '@components/Home';
 const Home = () => {
   const theme = useTheme();
   const isReallySmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const iconSize = isReallySmallScreen ? 'medium' : 'large';
+  const isSmallScreenHeight = useMediaQuery('(max-height: 600px)');
+  const iconSize = isReallySmallScreen || isSmallScreenHeight ? 'medium' : 'large';
   const aboutRef = useRef(null);
 
   const handleClick = () => aboutRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -45,64 +46,70 @@ const Home = () => {
   );
   const subheading = 'Personal Access System for Services';
 
-  const logoSection = isReallySmallScreen ? (
-    <Typography component="h1" color="primary">
-      <Stack
-        component="span"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-        mb={2}
-        data-testid="testStack"
-      >
-        <Typography
-          color="primary.text"
-          variant="h1"
-          component="span"
-          fontWeight="500"
-          fontSize="72px"
-        >
-          {heading}
-        </Typography>
-        <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="50%" />
-        <Typography color="primary.text" variant="h4" component="span" fontWeight="600" mb={8}>
-          {subheading}
-        </Typography>
-      </Stack>
-    </Typography>
-  ) : (
-    <Typography component="h1" color="primary.text">
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        spacing={4}
-        mb={18}
-        data-testid="testStack"
-      >
+  const logoSection =
+    isReallySmallScreen || isSmallScreenHeight ? (
+      <Typography component="h1" color="primary">
         <Stack
           component="span"
-          direction="row"
           justifyContent="center"
           alignItems="center"
-          spacing={4}
+          spacing={2}
+          mb={2}
+          data-testid="testStack"
         >
-          <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
           <Typography
             color="primary.text"
             variant="h1"
             component="span"
             fontWeight="500"
-            fontSize="144px"
+            fontSize="72px"
           >
             {heading}
           </Typography>
+          <Box
+            component="img"
+            src="/assets/PASSLogolightmode.png"
+            alt=""
+            width={isSmallScreenHeight ? '20%' : '50%'}
+          />
+          <Typography color="primary.text" variant="h4" component="span" fontWeight="600" mb={8}>
+            {subheading}
+          </Typography>
         </Stack>
-        <Typography color="primary.text" variant="h3" component="span" fontWeight="600">
-          {subheading}
-        </Typography>
-      </Stack>
-    </Typography>
-  );
+      </Typography>
+    ) : (
+      <Typography component="h1" color="primary.text">
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          spacing={4}
+          mb={18}
+          data-testid="testStack"
+        >
+          <Stack
+            component="span"
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={4}
+          >
+            <Box component="img" src="/assets/PASSLogolightmode.png" alt="" width="150px" />
+            <Typography
+              color="primary.text"
+              variant="h1"
+              component="span"
+              fontWeight="500"
+              fontSize="144px"
+            >
+              {heading}
+            </Typography>
+          </Stack>
+          <Typography color="primary.text" variant="h3" component="span" fontWeight="600">
+            {subheading}
+          </Typography>
+        </Stack>
+      </Typography>
+    );
 
   return (
     <Container sx={{ width: '100vw' }}>
@@ -135,8 +142,8 @@ const Home = () => {
             </Box>
             <div ref={aboutRef}>
               <HomeSection
-                isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/web-security-green.png"
+                isReallySmallScreen={isReallySmallScreen || isSmallScreenHeight}
+                componentImageSrc="/assets/web-security-blue.webp"
                 componentImageAlt=""
                 title="Keep Your Documents Safe and Secure Using Decentralized Technology"
                 description="Our innovative solution empowers individuals to manage their critical documents and control access for trusted organizations. PASS simplifies service access, enabling seamless documents requests and secure data sharing for a smoother support process."
@@ -145,33 +152,33 @@ const Home = () => {
                 hasMargin
               />
               <HomeSection
-                isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/app-green.png"
+                isReallySmallScreen={isReallySmallScreen || isSmallScreenHeight}
+                componentImageSrc="/assets/app-blue.webp"
                 componentImageAlt=""
                 title="An App for Caseworkers"
                 description="PASS allows users to quickly and securely share documents of their clients within the app. The app helps caseworkers verify and share documents such as ID and proof of income while retaining total control of them."
                 hasMargin
               />
               <HomeSection
-                isReallySmallScreen={isReallySmallScreen}
-                componentImageSrc="/assets/key-features-green.png"
+                isReallySmallScreen={isReallySmallScreen || isSmallScreenHeight}
+                componentImageSrc="/assets/key-features-blue.webp"
                 componentImageAlt=""
                 title="Key Features"
               />
               <KeyFeatures
-                isReallySmallScreen={isReallySmallScreen}
+                isReallySmallScreen={isReallySmallScreen || isSmallScreenHeight}
                 icon={<SecurityIcon fontSize={iconSize} />}
                 title="Secure Storage"
                 description="Store vital documents like IDs, Social Security information, birth certificates, medical records, and bank statements in a valid digital format."
               />
               <KeyFeatures
-                isReallySmallScreen={isReallySmallScreen}
+                isReallySmallScreen={isReallySmallScreen || isSmallScreenHeight}
                 icon={<Diversity1Icon fontSize={iconSize} />}
                 title="Nonprofit-Caseworker Integration"
                 description="The platform facilitates smooth communication between nonprofit organizations, case workers, and the individuals they serve. It allows nonprofit organizations to maintain a contact list, and caseworkers are assigned contacts whose data they can access securely."
               />
               <KeyFeatures
-                isReallySmallScreen={isReallySmallScreen}
+                isReallySmallScreen={isReallySmallScreen || isSmallScreenHeight}
                 icon={<SupportIcon fontSize={iconSize} />}
                 title="Support Service"
                 description="Verified documents can be used to facilitate access to service such as housing support and shelter accommodation. The platform simplifies the process of submitting necessary documents for such services."
